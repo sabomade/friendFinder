@@ -5,10 +5,14 @@ body{
 }
 
 .container{
-    height: 650px;
     display: flex;
     flex-flow: column nowrap;
-    
+}
+.home{
+    height: 650px;
+}
+.survey{
+    height: 800px;
 }
 .jumbotron{
     background-color: transparent;
@@ -37,4 +41,7 @@ body{
     border: none;
 }
 
-
+.card{
+    background: rgba(255, 255, 255, .5);
+    margin-top: 2em;
+}
