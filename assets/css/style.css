@@ -1,0 +1,40 @@
+body{
+    background-image: url(../img/couple.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.container{
+    height: 650px;
+    display: flex;
+    flex-flow: column nowrap;
+    
+}
+.jumbotron{
+    background-color: transparent;
+    text-align: center;
+    align-self: center;
+}
+
+.btn{
+    background-color: #3D0066;
+    border-color: #3D0066;
+}
+
+.btn:hover{
+    background-color: #643385;
+    border-color: #643385;
+}
+
+
+.info{
+    display: flex;
+    align-self: flex-start;
+}
+
+.list-group-item {
+    background-color: transparent;
+    border: none;
+}
+
+
