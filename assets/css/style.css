@@ -1,7 +1,8 @@
 body{
     background-image: url(../img/couple.jpg);
     background-size: cover;
-    background-repeat: no-repeat;
+    background-attachment: fixed;
+	overflow:scroll;
 }
 
 .container{
@@ -12,7 +13,7 @@ body{
     height: 650px;
 }
 .survey{
-    height: 800px;
+    height: 1600px;
 }
 .jumbotron{
     background-color: transparent;
@@ -39,6 +40,10 @@ body{
 .list-group-item {
     background-color: transparent;
     border: none;
+}
+
+.fixed-bottom {
+    position: relative;
 }
 
 .card{
