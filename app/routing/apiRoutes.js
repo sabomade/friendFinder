@@ -9,12 +9,12 @@ module.exports = function(app){
 
   // Displays a single friend who matched with your results, or returns false
   app.get("/api/friends/:friend", function(req, res) {
-      var chosen = req.params.friend;
+      var chosen = req.params.name;
     
       console.log(chosen);
     
       for (var i = 0; i < friends.length; i++) {
-        if (chosen === friends[i].routeName) {
+        if (chosen === friends[i].name) {
           return res.json(friends[i]);
         }
       }
@@ -30,11 +30,11 @@ module.exports = function(app){
     
       // Using a RegEx Pattern to remove spaces from newFriend
       // You can read more about RegEx Patterns later https://www.regexbuddy.com/regex.html
-      newFriend.routeName = newFriend.name.replace(/\s+/g, "").toLowerCase();
+      //newFriend.name = newFriend.name.replace(/\s+/g, "").toLowerCase();
     
       console.log(newFriend);
     
-      characters.push(newFriend);
+      friends.push(newFriend);
     
       res.json(newFriend);
     });

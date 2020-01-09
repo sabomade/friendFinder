@@ -9,13 +9,14 @@ var app = express();
 var PORT = process.env.PORT || 3000; //use heroku port or localhost:3000
 
 // Sets up the Express app to handle data parsing
+app.use("/assets", express.static('assets'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // Required Routes
 // =============================================================
-require("./routing/apiRoutes")(app);
-require("./routing/htmlRoutes")(app);
+require("./app/routing/apiRoutes")(app);
+require("./app/routing/htmlRoutes")(app);
 
 
 // Starts the server to begin listening
