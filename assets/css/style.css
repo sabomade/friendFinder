@@ -51,3 +51,16 @@ body{
     background: rgba(255, 255, 255, .5);
     margin-top: 2em;
 }
+
+.profile{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+}
+.pic{
+    width: 200;
+    padding:10px;
+}
+.info{
+    text-align: center;
+}

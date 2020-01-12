@@ -9,11 +9,21 @@
         <title>Friend Finder: Survey</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <script src="https://code.jquery.com/jquery.js"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
         <script src="https://kit.fontawesome.com/e5483f52e8.js" crossorigin="anonymous"></script>
         <link rel="icon" type="image/png" href="../../assets/img/fav-icon.png"/>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" href="../../assets/css/style.css">
+        <script>
+          function validateForm() {
+          var x = document.forms["friendSurvey"]["name"].value;
+          var y = document.forms["friendSurvey"]["photo"].value;
+          if (x == "" || y == "") {
+            alert("Please fill in all required fields");
+            return false;
+          }
+        }
+        </script>
     </head>
     <body>
         <!--[if lt IE 7]>
@@ -26,18 +36,15 @@
                   <h3 class="card-title">Let's find you a friend!</h3>
                   
                   <hr>
-                  <form method="POST" role="form">
+                  <form method="POST" role="form" name="friendSurvey" onsubmit="return validateForm()">
                     <h6>Tell us a little about yourself:</h6>
                     <div class="form-group">
                       <label for="name"><strong>Name (Required)</strong></label>
-                      <input id="name" class="form-control" type="text" placeholder="name" required>
+                      <input name="name" id="name" class="form-control" type="text" placeholder="name" required>
                     </div>
                     <div class="form-group">
                       <label for="photo"><strong>Photo (Required)</strong></label>
-                      <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="photo" required>
-                        <label class="custom-file-label" for="customFile">Choose file</label>
-                      </div>
+                      <input name="phtot" id="photo" class="form-control" type="text" placeholder="photo link" required>
                     </div>
 
                     <hr>
@@ -171,9 +178,8 @@
                         <option value="5">Strongly Agree</option>
                       </select>
                     </div>
+                    <button type="submit" class="btn btn-primary submit">Submit</button>
                   </form>
-
-                  <a href="#!" class="btn btn-primary" id="submit">Submit</a>
                 </div>
             </div>
             
@@ -186,33 +192,67 @@
               
         </div>
 
+        <!-- modal for matched friend-->
+        <!-- Modal -->
+        <div class="modal" id="matchFriend" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">We found you a Friend!</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                  <div class="profile">
+                    <div class="pic"></div>
+                    <div class="info"></div>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- bootstrap requirements-->
-        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <!-- <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script> -->
         
         <!-- js for handling button clicks on this page-->
         <script>
-        $("#submit").on("click",function(){
+        $(".submit").on("click",function(){
           event.preventDefault();
           var scores = [];
-          var friend = {
+          for (let index = 0; index < 10; index++) {
+            scores.push($("#" +index +" :selected").val());
+            
+          }
+          var newFriend = {
             name: $("#name").val().trim(),
-            photo: $("#role").val().trim(),
-            score: function(){
-              for (let index = 0; index < 10; index++) {
-                scores.push($("#"+index).val().trim());
-                
-              }
-            }
+            photo: $("#photo").val().trim(),
+            score: scores
           };
+          //console.log(newFriend);
 
-          // Question: What does this code do??
           //jquery server call, writes newCharacter obj to server once user clicks alert
           $.post("/api/friends", newFriend)
             .then(function(data) {
-              console.log("survey.html", data);
-              alert("Adding friend...");
+              //data returned is match
+              console.log(data);
+
+              //show match in modal
+              var img = $('<img />', {
+                id: 'match',
+                src: data.photo,
+              });
+              $(".pic").append(img);
+
+              var pTag = $('<p>');
+              pTag.text(data.name);
+              $('.info').append(pTag);
           });
         })
         </script>

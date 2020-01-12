@@ -1,3 +1,7 @@
+// LOAD DATA
+// =============================================================
+var friends = require('../data/friends');
+
 module.exports = function(app){
   // API Routes
   // =============================================================
@@ -9,34 +13,40 @@ module.exports = function(app){
 
   // Displays a single friend who matched with your results, or returns false
   app.get("/api/friends/:friend", function(req, res) {
-      var chosen = req.params.name;
-    
-      console.log(chosen);
-    
-      for (var i = 0; i < friends.length; i++) {
-        if (chosen === friends[i].name) {
-          return res.json(friends[i]);
-        }
+    var chosen = req.params.name;
+  
+    console.log(chosen);
+  
+    for (var i = 0; i < friends.length; i++) {
+      if (chosen === friends[i].name) {
+        return res.json(friends[i]);
       }
-    
-      return res.json(false);
-    });
+    }
+  
+    return res.json(false);
+  });
 
   // Create New Friend - takes in JSON input
   app.post("/api/friends", function(req, res) {
-      // req.body hosts is equal to the JSON post sent from the user
-      // This works because of our body parsing middleware
-      var newFriend = req.body;
-    
-      // Using a RegEx Pattern to remove spaces from newFriend
-      // You can read more about RegEx Patterns later https://www.regexbuddy.com/regex.html
-      //newFriend.name = newFriend.name.replace(/\s+/g, "").toLowerCase();
-    
-      console.log(newFriend);
-    
-      friends.push(newFriend);
-    
-      res.json(newFriend);
+    var newFriend = req.body;
+
+    newFriend.totalScore = newFriend.score.map(Number).reduce((a, b) => a + b, 0);
+    console.log("newFriend total score: ", newFriend.totalScore);
+
+    friends.push(newFriend);
+
+    //computes total score for each friend
+    friends.forEach(friend => {
+      friend.totalScore = friend.scores.map(Number).reduce((a, b) => a + b, 0);
+      
+      //check to see if newfriend matches with any current friends -1+
+      //returns first match
+      if(friend.totalScore + 1 || friend.totalScore - 1 === newFriend.totalScore){
+        var match = friend;
+        return res.json(match);
+      }
+
     });
-  }
+  });
+}
   
