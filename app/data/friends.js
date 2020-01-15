@@ -19,7 +19,7 @@ var friends = [
     {
         name: "Rabbit",
         photo: "http://pngimg.com/uploads/winnie_pooh/winnie_pooh_PNG37620.png",
-        scores: ["1", "4","3","4","4","3","3","5", "2", "1"]
+        scores: ["1","4","4","4","4","3","3","5", "2", "1"]
     },
     {
         name: "Owl",

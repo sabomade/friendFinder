@@ -30,23 +30,25 @@ module.exports = function(app){
   app.post("/api/friends", function(req, res) {
     var newFriend = req.body;
 
+    //computes total score for new friend
     newFriend.totalScore = newFriend.score.map(Number).reduce((a, b) => a + b, 0);
-    console.log("newFriend total score: ", newFriend.totalScore);
-
-    friends.push(newFriend);
+    console.log("newFriend totalScore: ", newFriend.totalScore);
 
     //computes total score for each friend
     friends.forEach(friend => {
       friend.totalScore = friend.scores.map(Number).reduce((a, b) => a + b, 0);
+      console.log(friend.name, friend.totalScore);
       
-      //check to see if newfriend matches with any current friends -1+
-      //returns first match
-      if(friend.totalScore + 1 || friend.totalScore - 1 === newFriend.totalScore){
+      //compare total score of all friends against newfriend's total score 
+      //returns closest match 
+      if(){
         var match = friend;
         return res.json(match);
       }
 
     });
+    //add newFriend to friend list
+    friends.push(newFriend);
   });
 }
   

@@ -44,7 +44,7 @@
                     </div>
                     <div class="form-group">
                       <label for="photo"><strong>Photo (Required)</strong></label>
-                      <input name="phtot" id="photo" class="form-control" type="text" placeholder="photo link" required>
+                      <input name="photo" id="photo" class="form-control" type="text" placeholder="photo link" required>
                     </div>
 
                     <hr>
@@ -194,20 +194,16 @@
 
         <!-- modal for matched friend-->
         <!-- Modal -->
-        <div class="modal" id="matchFriend" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
+        <div class="modal fade" id="matchFriend" role="dialog">
+          <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">We found you a Friend!</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                <h5 class="modal-title">We found you a Friend!</h5>
               </div>
               <div class="modal-body">
-                  <div class="profile">
-                    <div class="pic"></div>
-                    <div class="info"></div>
-                  </div>
+                <h2 id="match-name"></h2>
+                <img id="match-pic" src="#">
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -225,36 +221,51 @@
         <script>
         $(".submit").on("click",function(){
           event.preventDefault();
+
           var scores = [];
           for (let index = 0; index < 10; index++) {
             scores.push($("#" +index +" :selected").val());
             
           }
-          var newFriend = {
-            name: $("#name").val().trim(),
-            photo: $("#photo").val().trim(),
-            score: scores
-          };
-          //console.log(newFriend);
 
-          //jquery server call, writes newCharacter obj to server once user clicks alert
-          $.post("/api/friends", newFriend)
-            .then(function(data) {
-              //data returned is match
-              console.log(data);
+          // form validation
+          var valid = true;
+          if ($("#name").val() === ""  ||  $("#photo").val() === ""){
+              valid = false;
+          }else{
+            var scores = [];
+            for (let index = 0; index < 10; index++) {
+              var questVal = $("#" +index +" :selected").val();
+              if (questVal === "empty"){
+                valid = false;
+              }else{
+                scores.push(questVal);
+              }
+            }
+          }
 
-              //show match in modal
-              var img = $('<img />', {
-                id: 'match',
-                src: data.photo,
-              });
-              $(".pic").append(img);
+          if (valid === true){
+            var newFriend = {
+              name: $("#name").val().trim(),
+              photo: $("#photo").val().trim(),
+              score: scores
+            };
+            //console.log(newFriend);
 
-              var pTag = $('<p>');
-              pTag.text(data.name);
-              $('.info').append(pTag);
-          });
-        })
+            var currentURL = window.location.origin;
+
+            //jquery server call, writes newCharacter obj to server once user clicks alert
+            //show match in modal
+            $.post(currentURL+"/api/friends", newFriend, data =>{
+              $("#match-name").text(data.name);
+              $("#match-pic").attr("src", data.photo);
+              $("#matchFriend").modal("toggle");  
+            });
+          }else{
+            //required field is missing, show alert
+            alert("Please fill in all fields");
+          }
+        });
         </script>
     </body>
 </html>

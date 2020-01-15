@@ -52,7 +52,7 @@ body{
     margin-top: 2em;
 }
 
-.profile{
+.modal-body{
     display: flex;
     flex-flow: row wrap;
     justify-content: flex-start;
