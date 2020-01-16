@@ -8,7 +8,7 @@ This app is deployed through heroku and can be accessed by visiting this site: h
 
 Once there, click button to fill out survey. Answer all required fields & questions.  Hit submit and await your "perfect" match!
 
-![survey](assets/img/survey.png)
+![survey](assets/img/survey.gif)
 
 ## Built With
 * Node.js
