@@ -59,7 +59,7 @@ body{
     flex-flow: row wrap;
     justify-content: center;
 }
-.match-pic{
+.pic{
     width: 200px;
     padding:10px;
 }
