@@ -34,21 +34,35 @@ module.exports = function(app){
     newFriend.totalScore = newFriend.score.map(Number).reduce((a, b) => a + b, 0);
     console.log("newFriend totalScore: ", newFriend.totalScore);
 
-    //computes total score for each friend
-    friends.forEach(friend => {
-      friend.totalScore = friend.scores.map(Number).reduce((a, b) => a + b, 0);
-      console.log(friend.name, friend.totalScore);
-      
-      //compare total score of all friends against newfriend's total score 
-      //returns closest match 
-      if(){
-        var match = friend;
-        return res.json(match);
+    var matchIndex = 0;
+    var maxDiff = 40;
+    var totalDiff = 0;
+    //first for loop to run through each friend in list
+    for (let index = 0; index < friends.length; index++) {
+      var tempScore = 0;
+      //second for loop to add total score of each friend in list
+      for (let j = 0; j < friends[index].scores.length; j++) {
+       // var diff = parseInt(friends[index].scores[j])
+        tempScore += parseInt(friends[index].scores[j]);
+        totalDiff = Math.abs(newFriend.totalScore - tempScore);
       }
+      console.log(friends[index].name + "'s totalScore ", tempScore);
+      console.log(totalDiff, "is the difference in total score between newFriend & "+ friends[index].name);
 
-    });
-    //add newFriend to friend list
+      //check to see if friend[index].totalScore is less than maxDiff (closest match)
+      if (totalDiff < maxDiff){
+        matchIndex = index;
+        console.log("matchIndex", matchIndex);
+        maxDiff = totalDiff;
+        console.log("maxDiff", maxDiff);
+      }
+    }
+
+    //add newFriend to friend list after finding closest match
     friends.push(newFriend);
+
+    //return match
+    return res.json(friends[matchIndex]);
   });
 }
   

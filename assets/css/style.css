@@ -36,6 +36,8 @@ body{
     display: flex;
     align-self: flex-start;
     margin-top: auto;
+    text-align: center;
+    width: auto;
 }
 
 .list-group-item {
@@ -55,12 +57,12 @@ body{
 .modal-body{
     display: flex;
     flex-flow: row wrap;
-    justify-content: flex-start;
+    justify-content: center;
 }
 .pic{
-    width: 200;
+    width: 200px;
     padding:10px;
 }
-.info{
+h5{
     text-align: center;
 }
