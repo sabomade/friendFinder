@@ -225,7 +225,7 @@
           var scores = [];
           for (let index = 0; index < 10; index++) {
             scores.push($("#" +index +" :selected").val());
-            
+            console.log("scores is working1")
           }
 
           // form validation
@@ -248,7 +248,7 @@
             var newFriend = {
               name: $("#name").val().trim(),
               photo: $("#photo").val().trim(),
-              score: scores
+              scores: scores
             };
             //console.log(newFriend);
 

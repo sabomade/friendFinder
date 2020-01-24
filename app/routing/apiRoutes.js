@@ -31,7 +31,7 @@ module.exports = function(app){
     var newFriend = req.body;
 
     //computes total score for new friend
-    newFriend.totalScore = newFriend.score.map(Number).reduce((a, b) => a + b, 0);
+    newFriend.totalScore = newFriend.scores.map(Number).reduce((a, b) => a + b, 0);
     console.log("newFriend totalScore: ", newFriend.totalScore);
 
     var matchIndex = 0;
